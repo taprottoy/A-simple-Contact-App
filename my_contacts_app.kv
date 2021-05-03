@@ -1,0 +1,299 @@
+#: import Factory kivy.factory.Factory
+
+
+# ids are given to Label and TextInput so that it can be updated inside the .py program easily.
+# however, the popup Label can't be updated. Not sure exactly why.
+# For popup window factory needs to be imported.
+# There are more types of layout available as well. Like floatLayout, PageLayout, anchorLayout
+# however wasn't used in this file
+
+#popup window creation and styling
+<MyPopup@Popup>:
+
+    title: "Confirmation Message"
+    title_align: 'center'
+    size_hint: 0.4,0.4
+
+    BoxLayout:
+        orientation: "vertical"
+
+
+        Label:
+            id: popup_name
+            text: "The task has been successfully completed! "
+
+        RoundButton:
+            text: "Okay"
+            size_hint: 0.5,0.4
+            pos_hint: {'x': 0.2}
+            on_release: root.dismiss()
+
+# MyGrid layout and widget styling.
+<MyGrid>:
+
+    # main background color change of the
+    canvas.before:
+        Color:
+            rgba: 192/255,192/255,192/255,0.45
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    #creating GridLayout.
+    GridLayout:
+        size : root.width,root.height
+        cols:2
+        rows:2
+        spacing: 10
+        padding: 20
+
+        #creating a Boxlayout within a gridLayout hence nested layout
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+
+            # creating Label
+            Label:
+
+                text: "Add Contact"
+                font_size: 45
+                size_hint: 1.0,0.25
+
+                # changing label background color
+                canvas.before:
+                    Color:
+                        rgba: (128/255,128/255,128/255,1.0)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+            GridLayout:
+                cols: 2
+                rows:3
+
+                Label:
+                    size_hint_x: None
+                    width: 250
+                    id: add
+                    text: "Enter Name: "
+
+                # ids are given to Label and TextInput so that it can be updated inside the .py program easily.
+
+                TextInput:
+
+                    id: add_name
+                    font_size: 40
+                    multiline: False
+
+
+
+                Label:
+                    size_hint_x: None
+                    width: 250
+                    text: "Phone Number:"
+
+                TextInput:
+                    id: add_number
+
+                    font_size: 40
+                    multiline: False
+
+
+                Label:
+                    size_hint_x: None
+                    width: 250
+                    id: add
+                    text: "Email address:"
+
+                TextInput:
+                    size: 0.5,0.5
+                    id: add_email
+                    font_size: 40
+                    multiline: False
+
+
+            RoundButton:
+                size_hint: 0.5,0.2
+                pos_hint: {'x':0.25}
+                text: "Save Contact"
+                font_size: 35
+                #binding teh button to it's function
+                on_press: root.addbtn()
+                #popup window creation after the button is released.
+                on_release: Factory.MyPopup().open()
+
+
+
+        BoxLayout:
+            orientation: "vertical"
+
+            spacing: 20
+
+
+            Label:
+                font_size: 45
+                text: "Delete Contact"
+                size_hint: 1.0,0.45
+                canvas.before:
+                    Color:
+                        rgba: (128/255,128/255,128/255,1.0)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+            Label:
+                size_hint: 1.0,0.5
+                font_size: 40
+                text: "Enter full name to remove"
+
+            TextInput:
+                size_hint: 1.0,1.1
+                id: rem_name
+                font_size: 40
+                multiline: False
+                spacing: 100,100
+
+            RoundButton:
+                size_hint: 0.6,0.4
+                pos_hint: {'x':0.2, 'bottom':0.3}
+
+                font_size: 35
+                text: "Remove Contact"
+                on_press: root.removebtn()
+                on_release: Factory.MyPopup().open()
+
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 20
+            padding_y: 10
+            Label:
+                text: "Search through Contacts"
+                font_size: 45
+                size_hint: 1.0,0.7
+
+                canvas.before:
+                    Color:
+                        rgba: (128/255,128/255,128/255,1.0)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                font_size: 35
+                pos_hint: {'x':0.0}
+                text: "Enter Name to search"
+                size_hint: 1.0,0.5
+
+            TextInput:
+                id: search_name
+                font_size: 40
+                size_hint: 1.0,0.6
+                id: search_name
+                multiline: False
+
+
+            RoundButton:
+                size_hint: 0.4,0.5
+                pos_hint: {'x':0.3}
+                font_size: 35
+                text: "Search"
+                on_press: root.searchbtn()
+                on_release: Factory.SearchPopup().open()
+
+            Label:
+                id: search
+                text: ""
+                halign : 'left'
+                valign: 'top'
+                text_size:self.size
+                text_pos: self.pos
+                canvas.before:
+                    Color:
+                        rgba: (0/255,0/255,0/255,0.6)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 20
+            size: 0.5,0.5
+            pos_hint: 0.5,0.5
+            canvas.before:
+                Color:
+                    rgba: (128/255,128/255,128/255,1.0)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+
+            RoundButton:
+                text: "Click to Show All Contacts"
+                size_hint: 0.7,0.25
+                pos_hint: {'x': 0.15}
+                on_press: root.showall()
+
+            Label:
+                text: "Name     Phone Number     Email"
+                size_hint: 0.8,0.2
+                font_size: 35
+
+
+            ScrollView:
+
+                # had to provide many alignment directions to align the text and label box as desired position.
+                Label:
+                    id: saved
+                    size_hint: 1.0,0.7
+                    font_size: 35
+                    pos_hint:{'x':0.1}
+                    text: "Sorry! No saved contacts as of now."
+                    padding_x: 20
+                    size_hint: 1.0,1.0
+                    halign : 'left'
+                    valign: 'top'
+                    text_size:self.size
+                    text_pos: self.pos
+                    canvas.before:
+                        Color:
+                            rgba: (0/255,0/255,0/255,0.7)
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+
+
+# creating a RoundButton class so that certain buttons can be of round shape on the sides.
+# also designing the relative size and background_color of the button
+<RoundButton@Button>:
+
+    background_color: (0,0,0,0)
+    background_normal: ''
+    canvas.before:
+        Color:
+            rgba: (48/255,84/255,150/255,1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [47]
+
+<SearchPopup@Popup>:
+    auto_dismiss: False
+    title: "Confirmation Message"
+    title_align: 'center'
+    size_hint: 0.4,0.4
+
+    BoxLayout:
+        orientation: "vertical"
+
+
+        Label:
+            id: popup_name
+            text: "The information has been printed on info box. "
+
+        RoundButton:
+            text: "Okay"
+            size_hint: 0.5,0.4
+            pos_hint: {'x': 0.2}
+            on_release: root.dismiss()
+
+
